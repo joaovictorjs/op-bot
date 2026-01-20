@@ -147,10 +147,7 @@ func selfDestructMessage(bot deleteMessager, chatID int64, messageID int, ttl ti
 	}
 
 	time.AfterFunc(ttl, func() {
-		bot.DeleteMessage(tgbotapi.DeleteMessageConfig{
-			ChatID:    chatID,
-			MessageID: messageID,
-		})
+		_ = deleteMessage(bot, chatID, messageID)
 	})
 }
 
