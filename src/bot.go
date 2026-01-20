@@ -461,24 +461,6 @@ func removeBadRichMessages(bot sendDeleteMessager, update tgbotapi.Update) int {
 	return deleted
 }
 
-// selfDestructMessage deletes a message in a chat after the specified amount of time.
-// If the ttl is set to zero, assume a default of 30m.
-func selfDestructMessage(bot deleteMessager, chatID int64, messageID int, ttl time.Duration) {
-	if ttl < 0 {
-		return
-	}
-	if ttl == 0 {
-		ttl = time.Duration(30 * time.Minute)
-	}
-
-	time.AfterFunc(ttl, func() {
-		bot.DeleteMessage(tgbotapi.DeleteMessageConfig{
-			ChatID:    chatID,
-			MessageID: messageID,
-		})
-	})
-}
-
 // richMessage returns true if the message is a rich message containing video,
 // photos, audio, etc. False otherwise.
 func richMessage(m *tgbotapi.Message) bool {

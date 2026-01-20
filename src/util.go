@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	tgbotapi "github.com/osprogramadores/telegram-bot-api"
 )
@@ -133,6 +134,24 @@ func sendMessage(bot sender, chatid int64, text string) (tgbotapi.Message, error
 	msg := tgbotapi.NewMessage(chatid, text)
 	msg.ParseMode = parseModeMarkdown
 	return bot.Send(msg)
+}
+
+// selfDestructMessage deletes a message in a chat after the specified amount of time.
+// If the ttl is set to zero, assume a default of 30m.
+func selfDestructMessage(bot deleteMessager, chatID int64, messageID int, ttl time.Duration) {
+	if ttl < 0 {
+		return
+	}
+	if ttl == 0 {
+		ttl = time.Duration(30 * time.Minute)
+	}
+
+	time.AfterFunc(ttl, func() {
+		bot.DeleteMessage(tgbotapi.DeleteMessageConfig{
+			ChatID:    chatID,
+			MessageID: messageID,
+		})
+	})
 }
 
 // deleteMessage deletes a given message id in a chat id. It returns nothing as there's
