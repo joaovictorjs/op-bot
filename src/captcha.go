@@ -18,8 +18,9 @@ import (
 )
 
 const (
-	captchaWidth  = 400
-	captchaHeight = 240
+	captchaWidth                = 400
+	captchaHeight               = 240
+	noCaptchaReceivedMessageTTL = 5 * time.Minute
 )
 
 // Precompile the regular expression used to match captchas.
@@ -163,9 +164,12 @@ func (x *opBot) captchaReaper(bot tgbotInterface, chatID int64, user tgbotapi.Us
 
 		// As the user is not yet banned, proceed to kick+unban.
 		// Kick user and remove from list.
-		_, err = sendMessage(bot, chatID, fmt.Sprintf(T("no_captcha_received"), name))
+		var msg tgbotapi.Message
+		msg, err = sendMessage(bot, chatID, fmt.Sprintf(T("no_captcha_received"), name))
 		if err != nil {
 			log.Printf("Warning: Unable to send 'invalid captcha' message.")
+		} else {
+			deleteMessageAfterDelay(bot, chatID, msg.MessageID, noCaptchaReceivedMessageTTL)
 		}
 
 		if err = kickUser(bot, chatID, user.ID); err != nil {
