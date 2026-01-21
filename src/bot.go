@@ -320,7 +320,7 @@ func (x *opBot) sendWelcome(bot sendDeleteMessager, update tgbotapi.Update, user
 	}
 
 	// Delete welcome message after the configured timeout.
-	selfDestructMessage(bot, welcome.Chat.ID, welcome.MessageID, x.welcomeMessageTTL)
+	deleteMessageAfterDelay(bot, welcome.Chat.ID, welcome.MessageID, x.welcomeMessageTTL)
 }
 
 // processNewUsers verifies if the user has been on the list for less than a
@@ -356,7 +356,7 @@ func (x *opBot) processNewUsers(bot sendDeleteMessager, update tgbotapi.Update) 
 					log.Printf("Error sending rules message: %v", err)
 				}
 				// Delete warning message.
-				selfDestructMessage(bot, reply.Chat.ID, reply.MessageID, 0)
+				deleteMessageAfterDelay(bot, reply.Chat.ID, reply.MessageID, 0)
 			}
 
 			// Delete original message.

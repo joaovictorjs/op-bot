@@ -102,7 +102,7 @@ func (x *opBot) sendCaptcha(bot tgbotInterface, chatID int64, messageID int, use
 		return
 	}
 	// Clean message after captcha duration + 10 seconds.
-	selfDestructMessage(bot, msg.Chat.ID, msg.MessageID, x.captchaTime+time.Duration(10*time.Second))
+	deleteMessageAfterDelay(bot, msg.Chat.ID, msg.MessageID, x.captchaTime+time.Duration(10*time.Second))
 }
 
 // genCaptchaImage generates a captcha image based on the captcha code. It

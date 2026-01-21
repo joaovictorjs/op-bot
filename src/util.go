@@ -136,9 +136,9 @@ func sendMessage(bot sender, chatid int64, text string) (tgbotapi.Message, error
 	return bot.Send(msg)
 }
 
-// selfDestructMessage deletes a message in a chat after the specified amount of time.
+// deleteMessageAfterDelay deletes a message in a chat after the specified amount of time.
 // If the ttl is set to zero, assume a default of 30m.
-func selfDestructMessage(bot deleteMessager, chatID int64, messageID int, ttl time.Duration) {
+func deleteMessageAfterDelay(bot deleteMessager, chatID int64, messageID int, ttl time.Duration) {
 	if ttl < 0 {
 		return
 	}

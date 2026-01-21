@@ -94,7 +94,7 @@ func (x *opBot) setWelcomeMessageTTLHandler(bot tgbotInterface, update tgbotapi.
 	if err != nil {
 		return err
 	}
-	selfDestructMessage(bot, reply.Chat.ID, reply.MessageID, 0)
+	deleteMessageAfterDelay(bot, reply.Chat.ID, reply.MessageID, 0)
 	return nil
 }
 
@@ -116,7 +116,7 @@ func (x *opBot) setCaptchaTimeHandler(bot tgbotInterface, update tgbotapi.Update
 	if err != nil {
 		return err
 	}
-	selfDestructMessage(bot, reply.Chat.ID, reply.MessageID, 0)
+	deleteMessageAfterDelay(bot, reply.Chat.ID, reply.MessageID, 0)
 	return nil
 }
 
@@ -144,7 +144,7 @@ func (x *opBot) setNewUserProbationTimeHandler(bot tgbotInterface, update tgbota
 	if err != nil {
 		return err
 	}
-	selfDestructMessage(bot, reply.Chat.ID, reply.MessageID, 0)
+	deleteMessageAfterDelay(bot, reply.Chat.ID, reply.MessageID, 0)
 	return nil
 }
 
